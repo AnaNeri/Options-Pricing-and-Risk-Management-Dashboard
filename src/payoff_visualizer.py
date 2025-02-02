@@ -1,9 +1,22 @@
 import matplotlib.pyplot as plt
-import numpy as np
+from payoff import payoff_function 
 
-def plot_payoff(S_range, K, option_type='call'):
-    payoff = np.maximum(S_range - K, 0) if option_type == 'call' else np.maximum(K - S_range, 0)
-    plt.plot(S_range, payoff, label=f'{option_type.capitalize()} Payoff')
+def plot_payoff(S_range, K, option_type='call', option_price=None):
+    
+    payoff = payoff_function(S_range, K, option_type)
+    
+    if option_price:
+        payoff -= option_price
+    
+    if option_type == 'put':
+        plt.plot(S_range, payoff, label='Put Payoff', color='red')
+        plt.plot(S_range, S_range - K, label='Stock Value', color='blue')
+        plt.plot(S_range, payoff + S_range - K, label='Protective Put', color='green')
+    elif option_type == 'call':
+        plt.plot(S_range, payoff, label='Call Payoff', color='red')
+        plt.plot(S_range, K - S_range, label='Stock Value', color='blue')
+        plt.plot(S_range, payoff + K - S_range, label='Fiduciary Call', color='green')
+    
     plt.xlabel('Stock Price at Expiration')
     plt.ylabel('Payoff')
     plt.legend()

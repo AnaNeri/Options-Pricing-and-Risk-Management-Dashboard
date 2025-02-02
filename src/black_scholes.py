@@ -1,21 +1,25 @@
 import numpy as np
 from scipy.stats import norm
-import matplotlib.pyplot as plt
-
-def visual_bs(x_values, y_values, x_label):
-    plt.figure(figsize=(10, 6))
-    plt.plot(x_values, y_values, label='Call Option Prices', color='blue', marker='o')
-    plt.xlabel(x_label.capitalize(), fontsize=12)
-    plt.ylabel('Call Option Prices', fontsize=12)
-    plt.title(f'Black-Scholes Option Prices vs {x_label.capitalize()}', fontsize=14)
-    plt.axhline(y=0, color='black', linestyle='--', linewidth=0.7)
-    plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(fontsize=12)
-    plt.show()
 
 N = norm.cdf
 
-def black_scholes_equation(S, K, T, r, sigma, option_type:str='c'):
+def black_scholes_equation(S:float, K:float, T:int, r:float, sigma:float, option_type:str='c'):
+    """Function to calculate the price of a European call or put option using the Black-Scholes equation.
+
+    Args:
+        S (float): Stock price
+        K (float): Strike price
+        T (int): Time to maturity
+        r (float): Risk-free rate
+        sigma (float): Volatility
+        option_type (str, optional): Option type. Defaults to 'c'.
+
+    Raises:
+        ValueError: Invalid option type. Please enter either "c" for call or "p" for put option.
+
+    Returns:
+        float: Price of the option
+    """
     
     d1 = ( np.log(S/K) + (r+0.5*sigma**2)*T ) / (sigma*np.sqrt(T))
     d2 = d1 -sigma*np.sqrt(T) 
@@ -27,5 +31,3 @@ def black_scholes_equation(S, K, T, r, sigma, option_type:str='c'):
     else:
         raise ValueError('Invalid option type. Please enter either "c" for call or "p" for put option.')
     return option_price
-
-

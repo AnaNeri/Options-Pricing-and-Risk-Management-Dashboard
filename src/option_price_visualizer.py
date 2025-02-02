@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def visualizer_bs(x_values, y_values, x_label):
+def visualizer_bs_call(x_values, y_values, x_label):
     plt.figure(figsize=(10, 6))
     plt.plot(x_values, y_values, label='Call Option Prices', color='blue', marker='o')
     plt.xlabel(x_label.capitalize(), fontsize=12)
